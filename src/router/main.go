@@ -2,7 +2,7 @@
 package router
 
 import (
-	"net/http"
+	"echo-todo-server/src/handler"
 
 	"github.com/labstack/echo/v4"
 )
@@ -10,9 +10,7 @@ import (
 func New() *echo.Echo {
 	e := echo.New()
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, world!")
-	})
+	e.GET("/", handler.ResponseHelloWorld)
 
 	return e
 }
