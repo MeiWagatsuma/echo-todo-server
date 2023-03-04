@@ -1,5 +1,5 @@
-// server endpoint
-package main
+// server routing
+package router
 
 import (
 	"net/http"
@@ -7,12 +7,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func main() {
+func New() *echo.Echo {
 	e := echo.New()
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, world!")
 	})
 
-	e.Logger.Fatal(e.Start(":1323"))
+	return e
 }
