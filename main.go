@@ -1,6 +1,6 @@
 package main
 
-import "echo-todo-server/router"
+import "echo-todo-server/src/router"
 
 func main() {
 	e := router.New()

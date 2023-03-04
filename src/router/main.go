@@ -1,4 +1,4 @@
-// server routing
+// Package router is routing
 package router
 
 import (
