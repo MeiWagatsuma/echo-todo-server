@@ -9,7 +9,7 @@ func CreateTodoTable() (err error) {
 	query := `CREATE TABLE IF NOT EXISTS todos (
 		id UUID PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 		title VARCHAR(255) NOT NULL,
-		description TEXT NOT NULL,
+		description VARCHAR(255) NOT NULL,
 		created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 	)`
 	_, err = Db.Exec(query)
@@ -19,10 +19,37 @@ func CreateTodoTable() (err error) {
 	return err
 }
 
+// Todo is todo struct
 type Todo struct {
-	Title       string    `json:title`
-	Description string    `json:description`
-	CreatedAt   time.Time `created_at`
+	ID          string    `json:"id"`
+	Title       string    `json:"title" varidate:"required, min=1, max=255"`
+	Description string    `json:"description" varidate:"required  min=1 max=255"`
+	CreatedAt   time.Time `json:"created_at"`
+}
+
+func SelectTodoList() (todos []Todo, err error) {
+	query := `SELECT id, title, description, created_at FROM todos;`
+
+	rows, err := Db.Query(query)
+	if err != nil {
+		log.Println("Error Get todo list: ", err)
+	}
+
+	for rows.Next() {
+		var todo Todo
+		err = rows.Scan(
+			&todo.ID,
+			&todo.Title,
+			&todo.Description,
+			&todo.CreatedAt)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		todos = append(todos, todo)
+	}
+	rows.Close()
+
+	return todos, err
 }
 
 func (t *Todo) CreateTodo() (err error) {

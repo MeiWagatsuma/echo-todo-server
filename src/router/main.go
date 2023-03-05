@@ -11,6 +11,7 @@ func New() *echo.Echo {
 	e := echo.New()
 
 	e.GET("/", handler.ResponseHelloWorld)
+	e.GET("/todos", handler.GetTodoList)
 	e.POST("/todos", handler.CreateTodo)
 
 	return e

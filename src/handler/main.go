@@ -15,6 +15,17 @@ func ResponseHelloWorld(c echo.Context) error {
 	return c.String(http.StatusOK, "Hello, world!")
 }
 
+// GetTodoList returns a list todo for a repository
+func GetTodoList(c echo.Context) error {
+	todos, err := model.SelectTodoList()
+	if err != nil {
+		fmt.Printf("Failed to reading the todo: %s", err)
+		return c.String(http.StatusInternalServerError, "")
+	}
+
+	return c.JSON(http.StatusOK, todos)
+}
+
 func CreateTodo(c echo.Context) error {
 	fmt.Println("create todo")
 	todo := model.Todo{}

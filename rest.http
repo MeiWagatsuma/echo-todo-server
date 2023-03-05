@@ -1,6 +1,6 @@
 GET localhost:8080
 
-POST localhost:8080/todos
+GET localhost:8080/todos
 
 POST localhost:8080/todos
 Content-Type: application/json
