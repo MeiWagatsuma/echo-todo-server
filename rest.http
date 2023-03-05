@@ -18,3 +18,10 @@ Content-Type: application/json
 	"title": "updated title",
 	"description": "updated description"
 }
+
+DELETE localhost:8080/todos
+Content-Type: application/json
+
+{
+	"id": "fddefb57-9dcc-4028-b316-3912617649d9"
+}

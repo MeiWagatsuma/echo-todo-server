@@ -68,3 +68,19 @@ func UpdateTodo(c echo.Context) error {
 
 	return c.String(http.StatusOK, "Update todo was succeeded!")
 }
+
+// DeleteTodo is for delete todo
+func DeleteTodo(c echo.Context) error {
+	todo := new(model.Todo)
+	if err := c.Bind(todo); err != nil {
+		log.Printf("Failed binding to todo for delete: %s", err)
+		return c.String(http.StatusInternalServerError, "")
+	}
+
+	if err := todo.DeleteTodo(); err != nil {
+		log.Printf("Failed deleting todo: %s", err)
+		return c.String(http.StatusInternalServerError, "")
+	}
+
+	return c.String(http.StatusOK, "Delete todo was succeeded!")
+}

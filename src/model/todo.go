@@ -84,3 +84,16 @@ func (t *Todo) UpdateTodo() (err error) {
 	}
 	return err
 }
+
+// DeleteTodo is used to delete a todo
+func (t *Todo) DeleteTodo() error {
+	query := `DELETE FROM todos WHERE id = $1`
+
+	if _, err := Db.Exec(query,
+		t.ID,
+	); err != nil {
+		log.Println("Error DELETE todo: ", err)
+	}
+
+	return err
+}
