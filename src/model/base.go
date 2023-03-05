@@ -38,4 +38,7 @@ func init() {
 		log.Fatal(err)
 	}
 	fmt.Println("Connected to database.")
+
+	// create table
+	CreateTodoTable()
 }
