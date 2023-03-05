@@ -70,3 +70,17 @@ func (t *Todo) CreateTodo() (err error) {
 
 	return err
 }
+
+// UpdateTodo is used to update a todo
+func (t *Todo) UpdateTodo() (err error) {
+	query := `UPDATE todos SET title = $1, description = $2 WHERE id = $3`
+
+	if _, err = Db.Exec(query,
+		t.Title,
+		t.Description,
+		t.ID,
+	); err != nil {
+		log.Println("Error UPDATE todo: ", err)
+	}
+	return err
+}

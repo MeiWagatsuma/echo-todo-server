@@ -9,3 +9,12 @@ Content-Type: application/json
 	"title": "title",
 	"description": "description"
 }
+
+PUT localhost:8080/todos
+Content-Type: application/json
+
+{
+	"id": "fddefb57-9dcc-4028-b316-3912617649d9",
+	"title": "updated title",
+	"description": "updated description"
+}

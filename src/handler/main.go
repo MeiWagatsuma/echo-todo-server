@@ -52,3 +52,19 @@ func CreateTodo(c echo.Context) error {
 	fmt.Printf("this is your todo: %#v", todo)
 	return c.String(http.StatusOK, "Create todo was succeeded!")
 }
+
+// UpdateTodo is for update todo
+func UpdateTodo(c echo.Context) error {
+	todo := new(model.Todo)
+	if err := c.Bind(todo); err != nil {
+		log.Printf("Failed binding to todo for update: %s", err)
+		return c.String(http.StatusInternalServerError, "")
+	}
+
+	if err := todo.UpdateTodo(); err != nil {
+		log.Printf("Failed updateing todo: %s", err)
+		return c.String(http.StatusInternalServerError, "")
+	}
+
+	return c.String(http.StatusOK, "Update todo was succeeded!")
+}
