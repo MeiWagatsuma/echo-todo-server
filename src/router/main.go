@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// New is a router
 func New() *echo.Echo {
 	e := echo.New()
 

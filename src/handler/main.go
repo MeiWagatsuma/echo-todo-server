@@ -1,3 +1,4 @@
+// Package handler is bussiness logic for server
 package handler
 
 import (
@@ -11,6 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// ResponseHelloWorld is for testing for responses of api
 func ResponseHelloWorld(c echo.Context) error {
 	return c.String(http.StatusOK, "Hello, world!")
 }
@@ -26,6 +28,7 @@ func GetTodoList(c echo.Context) error {
 	return c.JSON(http.StatusOK, todos)
 }
 
+// CreateTodo is for making a new Todo
 func CreateTodo(c echo.Context) error {
 	fmt.Println("create todo")
 	todo := model.Todo{}

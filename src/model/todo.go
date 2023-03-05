@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// CreateTodoTable is a function for creating todo table
 func CreateTodoTable() (err error) {
 	query := `CREATE TABLE IF NOT EXISTS todos (
 		id UUID PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
@@ -27,6 +28,7 @@ type Todo struct {
 	CreatedAt   time.Time `json:"created_at"`
 }
 
+// SelectTodoList is a fetching todos
 func SelectTodoList() (todos []Todo, err error) {
 	query := `SELECT id, title, description, created_at FROM todos;`
 
@@ -52,6 +54,7 @@ func SelectTodoList() (todos []Todo, err error) {
 	return todos, err
 }
 
+// CreateTodo is used to add a new todo to the database.
 func (t *Todo) CreateTodo() (err error) {
 	cmd := `INSERT INTO todos (title, description, created_at) VALUES($1, $2, $3 )`
 
