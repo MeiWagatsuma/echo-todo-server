@@ -28,8 +28,8 @@ type Todo struct {
 	CreatedAt   time.Time `json:"created_at"`
 }
 
-// SelectTodoList is a fetching todos
-func SelectTodoList() (todos []Todo, err error) {
+// Read is a fetching todos
+func Read() (todos []Todo, err error) {
 	query := `SELECT id, title, description, created_at FROM todos;`
 
 	rows, err := Db.Query(query)
@@ -54,8 +54,8 @@ func SelectTodoList() (todos []Todo, err error) {
 	return todos, err
 }
 
-// CreateTodo is used to add a new todo to the database.
-func (t *Todo) CreateTodo() (err error) {
+// Create is used to add a new todo to the database.
+func (t *Todo) Create() (err error) {
 	cmd := `INSERT INTO todos (title, description, created_at) VALUES($1, $2, $3 )`
 
 	_, err = Db.Exec(cmd,
@@ -71,8 +71,8 @@ func (t *Todo) CreateTodo() (err error) {
 	return err
 }
 
-// UpdateTodo is used to update a todo
-func (t *Todo) UpdateTodo(id string) (err error) {
+// Update is used to update a todo
+func (t *Todo) Update(id string) (err error) {
 	query := `UPDATE todos SET title = $1, description = $2 WHERE id = $3`
 
 	if _, err = Db.Exec(query,
@@ -85,8 +85,8 @@ func (t *Todo) UpdateTodo(id string) (err error) {
 	return err
 }
 
-// DeleteTodo is used to delete a todo
-func (t *Todo) DeleteTodo(id string) error {
+// Delete is used to delete a todo
+func (t *Todo) Delete(id string) error {
 	query := `DELETE FROM todos WHERE id = $1`
 
 	if _, err := Db.Exec(query,

@@ -15,7 +15,7 @@ func ResponseHelloWorld(c echo.Context) error {
 
 // GetTodoList returns a list todo for a repository
 func GetTodoList(c echo.Context) error {
-	todos, err := model.SelectTodoList()
+	todos, err := model.Read()
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Oops! Something went wrong!")
 	}
@@ -34,7 +34,7 @@ func CreateTodo(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "Oops! Something went wrong!")
 	}
 
-	if err := todo.CreateTodo(); err != nil {
+	if err := todo.Create(); err != nil {
 		return c.String(http.StatusInternalServerError, "Invalid value.")
 	}
 
@@ -49,7 +49,7 @@ func UpdateTodo(c echo.Context) error {
 	}
 
 	id := c.Param("id")
-	if err := todo.UpdateTodo(id); err != nil {
+	if err := todo.Update(id); err != nil {
 		return c.String(http.StatusBadRequest, "Invalid id.")
 	}
 
@@ -64,7 +64,7 @@ func DeleteTodo(c echo.Context) error {
 	}
 
 	id := c.Param("id")
-	if err := todo.DeleteTodo(id); err != nil {
+	if err := todo.Delete(id); err != nil {
 		return c.String(http.StatusBadRequest, "Invalid id.")
 	}
 
