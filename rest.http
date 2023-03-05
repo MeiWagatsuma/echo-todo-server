@@ -1,8 +1,8 @@
 GET localhost:8080
 
-GET localhost:8080/todos
+GET localhost:8080/todo
 
-POST localhost:8080/todos
+POST localhost:8080/todo
 ontent-Type: application/json
 
 {
@@ -10,7 +10,7 @@ ontent-Type: application/json
 	"description": "description"
 }
 
-PUT localhost:8080/todos/c2a935b9-5d26-4b91-a107-a76629e76881
+PUT localhost:8080/todo/c2a935b9-5d26-4b91-a107-a76629e76881
 Content-Type: application/json
 
 {
@@ -18,5 +18,5 @@ Content-Type: application/json
 	"description": "updated description"
 }
 
-DELETE localhost:8080/todos/9ded44d7-d3f2-4664-bcd0-6e018f70d923
+DELETE localhost:8080/todo/9ded44d7-d3f2-4664-bcd0-6e018f70d923
 
