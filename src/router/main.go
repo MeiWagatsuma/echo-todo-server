@@ -14,8 +14,8 @@ func New() *echo.Echo {
 	e.GET("/", handler.ResponseHelloWorld)
 	e.GET("/todos", handler.GetTodoList)
 	e.POST("/todos", handler.CreateTodo)
-	e.PUT("/todos", handler.UpdateTodo)
-	e.DELETE("/todos", handler.DeleteTodo)
+	e.PUT("/todos/:id", handler.UpdateTodo)
+	e.DELETE("/todos/:id", handler.DeleteTodo)
 
 	return e
 }

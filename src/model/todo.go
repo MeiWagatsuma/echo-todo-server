@@ -72,13 +72,13 @@ func (t *Todo) CreateTodo() (err error) {
 }
 
 // UpdateTodo is used to update a todo
-func (t *Todo) UpdateTodo() (err error) {
+func (t *Todo) UpdateTodo(id string) (err error) {
 	query := `UPDATE todos SET title = $1, description = $2 WHERE id = $3`
 
 	if _, err = Db.Exec(query,
 		t.Title,
 		t.Description,
-		t.ID,
+		id,
 	); err != nil {
 		log.Println("Error UPDATE todo: ", err)
 	}
@@ -86,11 +86,11 @@ func (t *Todo) UpdateTodo() (err error) {
 }
 
 // DeleteTodo is used to delete a todo
-func (t *Todo) DeleteTodo() error {
+func (t *Todo) DeleteTodo(id string) error {
 	query := `DELETE FROM todos WHERE id = $1`
 
 	if _, err := Db.Exec(query,
-		t.ID,
+		id,
 	); err != nil {
 		log.Println("Error DELETE todo: ", err)
 	}

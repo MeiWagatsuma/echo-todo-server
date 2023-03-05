@@ -61,7 +61,8 @@ func UpdateTodo(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "")
 	}
 
-	if err := todo.UpdateTodo(); err != nil {
+	id := c.Param("id")
+	if err := todo.UpdateTodo(id); err != nil {
 		log.Printf("Failed updateing todo: %s", err)
 		return c.String(http.StatusInternalServerError, "")
 	}
@@ -77,7 +78,8 @@ func DeleteTodo(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "")
 	}
 
-	if err := todo.DeleteTodo(); err != nil {
+	id := c.Param("id")
+	if err := todo.DeleteTodo(id); err != nil {
 		log.Printf("Failed deleting todo: %s", err)
 		return c.String(http.StatusInternalServerError, "")
 	}
