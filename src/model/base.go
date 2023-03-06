@@ -3,6 +3,7 @@ package model
 
 import (
 	"database/sql"
+	"echo-todo-server/src/env"
 	"fmt"
 	"log"
 
