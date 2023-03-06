@@ -3,7 +3,6 @@ package router
 
 import (
 	"echo-todo-server/src/group"
-	"echo-todo-server/src/handler"
 
 	"github.com/labstack/echo/v4"
 )
@@ -12,7 +11,6 @@ import (
 func New() *echo.Echo {
 	e := echo.New()
 
-	e.GET("/", handler.ResponseHelloWorld)
 	group.Todo(e.Group("/todo"))
 
 	return e
