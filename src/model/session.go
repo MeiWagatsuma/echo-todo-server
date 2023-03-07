@@ -14,7 +14,7 @@ func CreateSessionTable() (err error) {
 		user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
 		session_key VARCHAR(%d) UNIQUE NOT NULL,
 		expires_at TIMESTAMPTZ NOT NULL
-	)`, env.SESSION_KEY_LENGTH)
+	)`, env.SESSION_KEY_LENGTH*6)
 	_, err = Db.Exec(query)
 	if err != nil {
 		log.Fatal(err)
@@ -29,7 +29,17 @@ type Session struct {
 	ExpiresAt  time.Time `json:"expires_at"`
 }
 
-func (s *Session) generate(userId string) (sessionKey string, err error) {
+func (s *Session) Exists(userId string) (exists bool, err error) {
+	query := "SELECT EXISTS(SELECT 1 FROM sessions WHERE user_id=$1)"
+
+	if err = Db.QueryRow(query, userId).Scan(&exists); err != nil {
+		return false, err
+	}
+
+	return exists, nil
+}
+
+func (s *Session) Generate() (sessionKey string, err error) {
 	query := "INSERT INTO sessions(user_id, session_key, expires_at) VALUES($1, $2, $3)"
 
 	if sessionKey, err = lib.GenerateRandomBase64String(env.SESSION_KEY_LENGTH); err != nil {
@@ -39,7 +49,7 @@ func (s *Session) generate(userId string) (sessionKey string, err error) {
 
 	expiresAt := time.Now().Add(time.Second * 30)
 
-	if _, err = Db.Exec(query, userId, sessionKey, expiresAt); err != nil {
+	if _, err = Db.Exec(query, s.UserId, sessionKey, expiresAt); err != nil {
 		log.Println("Insert session key failed")
 		return "", err
 	}

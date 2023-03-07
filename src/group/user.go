@@ -42,11 +42,28 @@ func signin(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "Oops! Something went wrong!")
 	}
 
-	id, err := user.Signin()
+	userId, err := user.Signin()
 	if err != nil {
-		return c.String(http.StatusInternalServerError, "Password or id is wrong!")
+		return c.String(http.StatusInternalServerError, "Password or name is wrong!")
+	}
+	session := model.Session{UserId: userId}
+
+	sessionExists, err := session.Exists(userId)
+	if err != nil {
+		log.Println(err)
+		return c.String(http.StatusInternalServerError, "Oops! Something went wrong!")
 	}
 
-	fmt.Println("authenticated user id: ", id)
-	return c.String(http.StatusOK, "Successfully signed in!")
+	if sessionExists {
+		return c.String(http.StatusConflict, "Already signed in")
+	}
+
+	sessionKey, err := session.Generate()
+	if err != nil {
+		log.Println(err)
+		return c.String(http.StatusInternalServerError, "Oops! Something went wrong!")
+	}
+
+	fmt.Println("authenticated : ", sessionKey)
+	return c.JSON(http.StatusOK, sessionKey)
 }

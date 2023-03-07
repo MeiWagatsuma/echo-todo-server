@@ -3,7 +3,6 @@ package lib
 import (
 	"crypto/rand"
 	"encoding/base64"
-	"fmt"
 )
 
 func GenerateRandomBase64String(length int) (string, error) {
@@ -12,8 +11,6 @@ func GenerateRandomBase64String(length int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
-	fmt.Println(base64.URLEncoding.EncodeToString(bytes))
 
 	return base64.URLEncoding.EncodeToString(bytes), nil
 }
