@@ -11,7 +11,7 @@ import (
 )
 
 func Auth(g *echo.Group) {
-	g.POST("", signin)
+	g.POST("signup", signup)
 	// g.GET("", get)
 	// g.PUT(":id", update)
 	// g.DELETE(":id", delete)
@@ -19,7 +19,7 @@ func Auth(g *echo.Group) {
 
 var validate *validator.Validate
 
-func signin(c echo.Context) error {
+func signup(c echo.Context) error {
 	user := new(model.User)
 	// var user model.User
 	if err := c.Bind(user); err != nil {
