@@ -8,13 +8,13 @@ import (
 )
 
 // Sha3Hash if for password hashing
-func Sha3Hash(input string) string {
+func Sha3Hash(input string) []byte {
 	hash := sha3.New256()
 	salt := "my salt"
 	_, _ = hash.Write([]byte(input + salt))
 	sha3 := hash.Sum(nil)
 
-	return fmt.Sprintf("%x", sha3)
+	return sha3
 }
 
 func main() {
