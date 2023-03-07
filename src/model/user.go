@@ -37,3 +37,15 @@ func (u *User) Signup() (err error) {
 
 	return err
 }
+
+func (u *User) Signin() (id string, err error) {
+	query := "SELECT id FROM users WHERE name = $1 AND password = $2"
+
+	hashedPassword := lib.Sha3Hash(u.Password)
+	err = Db.QueryRow(query, u.Name, hashedPassword).Scan(&u.ID)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return u.ID, err
+}

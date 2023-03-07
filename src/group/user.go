@@ -11,10 +11,8 @@ import (
 )
 
 func Auth(g *echo.Group) {
-	g.POST("signup", signup)
-	// g.GET("", get)
-	// g.PUT(":id", update)
-	// g.DELETE(":id", delete)
+	g.POST("/signup", signup)
+	g.POST("/signin", signin)
 }
 
 var validate *validator.Validate
@@ -34,4 +32,21 @@ func signup(c echo.Context) error {
 	}
 
 	return c.String(http.StatusOK, "Successfully created user")
+}
+
+func signin(c echo.Context) error {
+	user := new(model.User)
+
+	if err := c.Bind(user); err != nil {
+		log.Println(err)
+		return c.String(http.StatusInternalServerError, "Oops! Something went wrong!")
+	}
+
+	id, err := user.Signin()
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Password or id is wrong!")
+	}
+
+	fmt.Println("authenticated user id: ", id)
+	return c.String(http.StatusOK, "Successfully signed in!")
 }

@@ -21,8 +21,16 @@ Content-Type: application/json
 
 DELETE localhost:8080/todo/9ded44d7-d3f2-4664-bcd0-6e018f70d923
 
-// User
-POST localhost:8080/user
+// Auth
+POST localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+	"name": "steve",
+	"password": "15"
+}
+
+POST localhost:8080/auth/signin
 Content-Type: application/json
 
 {
