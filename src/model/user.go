@@ -1,6 +1,7 @@
 package model
 
 import (
+	"echo-todo-server/src/lib"
 	"log"
 )
 
@@ -28,7 +29,8 @@ type User struct {
 func (u *User) Signup() (err error) {
 	query := "INSERT INTO users (name, password) VALUES($1, $2)"
 
-	_, err = Db.Exec(query, u.Name, u.Password)
+	hashedPassword := lib.Sha3Hash(u.Password)
+	_, err = Db.Exec(query, u.Name, hashedPassword)
 	if err != nil {
 		log.Println("Error create user: ", err)
 	}

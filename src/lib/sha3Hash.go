@@ -1,5 +1,5 @@
 // Package lib is some funcion
-package main
+package lib
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
+// Sha3Hash if for password hashing
 func Sha3Hash(input string) string {
 	hash := sha3.New256()
 	salt := "my salt"
