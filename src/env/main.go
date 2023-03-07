@@ -4,6 +4,7 @@ package env
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
@@ -14,6 +15,8 @@ var (
 	POSTGRES_USER     string
 	POSTGRES_PASSWORD string
 	POSTGRES_DBNAME   string
+
+	SESSION_KEY_LENGTH int
 )
 
 func getEnv(envName string) string {
@@ -23,6 +26,8 @@ func getEnv(envName string) string {
 	}
 	return envValue
 }
+
+var err error
 
 func init() {
 	if err := godotenv.Load(".env"); err != nil {
@@ -34,4 +39,8 @@ func init() {
 	POSTGRES_PORT = getEnv("POSTGRES_PORT")
 	POSTGRES_PASSWORD = getEnv("POSTGRES_PASSWORD")
 	POSTGRES_DBNAME = getEnv("POSTGRES_DBNAME")
+
+	if SESSION_KEY_LENGTH, err = strconv.Atoi(getEnv("SESSION_KEY_LENGTH")); err != nil {
+		log.Fatal("SESSION_KEY_LENGTH must be a number")
+	}
 }

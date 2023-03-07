@@ -42,4 +42,5 @@ func init() {
 	// create table
 	CreateTodoTable()
 	CreateUserTable()
+	CreateSessionTable()
 }
