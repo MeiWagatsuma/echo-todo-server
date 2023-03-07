@@ -1,6 +1,8 @@
 package model
 
-import "log"
+import (
+	"log"
+)
 
 func CreateUserTable() (err error) {
 	query := `CREATE TABLE IF NOT EXISTS users (
@@ -13,5 +15,23 @@ func CreateUserTable() (err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	return err
+}
+
+// User is user struct
+type User struct {
+	ID       string `json:"id"`
+	Name     string `json:"name" varidate:"required"`
+	Password string `json:"password" varidate:"required"`
+}
+
+func (u *User) Signup() (err error) {
+	query := "INSERT INTO users (name, password) VALUES($1, $2)"
+
+	_, err = Db.Exec(query, u.Name, u.Password)
+	if err != nil {
+		log.Println("Error create user: ", err)
+	}
+
 	return err
 }

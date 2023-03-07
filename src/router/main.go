@@ -12,6 +12,7 @@ func New() *echo.Echo {
 	e := echo.New()
 
 	group.Todo(e.Group("/todo"))
+	group.User(e.Group("/user"))
 
 	return e
 }
