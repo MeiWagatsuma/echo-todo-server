@@ -10,8 +10,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func User(g *echo.Group) {
-	g.POST("", create)
+func Auth(g *echo.Group) {
+	g.POST("", signin)
 	// g.GET("", get)
 	// g.PUT(":id", update)
 	// g.DELETE(":id", delete)
@@ -19,7 +19,7 @@ func User(g *echo.Group) {
 
 var validate *validator.Validate
 
-func create(c echo.Context) error {
+func signin(c echo.Context) error {
 	user := new(model.User)
 	// var user model.User
 	if err := c.Bind(user); err != nil {
