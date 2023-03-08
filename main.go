@@ -12,5 +12,6 @@ func main() {
 
 	fmt.Println(model.Db)
 
+	go model.GoRoutine()
 	e.Logger.Fatal(e.Start(":8080"))
 }

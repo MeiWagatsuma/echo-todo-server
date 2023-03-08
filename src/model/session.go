@@ -56,3 +56,13 @@ func (s *Session) Generate() (sessionKey string, err error) {
 
 	return sessionKey, err
 }
+
+func (s Session) DeleteExpiredSessions() error {
+	query := `DELETE FROM sessions WHERE expires_at < NOW()`
+	_, err := Db.Exec(query)
+	if err != nil {
+		return err
+	}
+	log.Println("Expired sessions were deleted!")
+	return nil
+}

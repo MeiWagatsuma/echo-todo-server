@@ -16,7 +16,8 @@ var (
 	POSTGRES_PASSWORD string
 	POSTGRES_DBNAME   string
 
-	SESSION_KEY_LENGTH int
+	SESSION_KEY_LENGTH                      int
+	SESSION_EXPIRATION_CHECK_INTERVAL_HOURS int
 )
 
 func getEnv(envName string) string {
@@ -42,5 +43,11 @@ func init() {
 
 	if SESSION_KEY_LENGTH, err = strconv.Atoi(getEnv("SESSION_KEY_LENGTH")); err != nil {
 		log.Fatal("SESSION_KEY_LENGTH must be a number")
+	}
+
+	if SESSION_EXPIRATION_CHECK_INTERVAL_HOURS, err = strconv.Atoi(getEnv("SESSION_EXPIRATION_CHECK_INTERVAL_HOURS")); err != nil {
+		log.Fatal("SESSION_EXPIRATION_CHECK_INTERVAL_HOURS must be a number")
+	} else if SESSION_EXPIRATION_CHECK_INTERVAL_HOURS > 1 {
+		log.Fatal("SESSION_EXPIRATION_CHECK_INTERVAL_HOURS is too short")
 	}
 }
