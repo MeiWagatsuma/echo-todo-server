@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -58,12 +59,19 @@ func signin(c echo.Context) error {
 		return c.String(http.StatusConflict, "Already signed in")
 	}
 
-	sessionKey, err := session.Generate()
-	if err != nil {
+	if err := session.Generate(); err != nil {
 		log.Println(err)
 		return c.String(http.StatusInternalServerError, "Oops! Something went wrong!")
 	}
 
-	fmt.Println("authenticated : ", sessionKey)
-	return c.JSON(http.StatusOK, sessionKey)
+	c.SetCookie(&http.Cookie{
+		Name:     "token",
+		Value:    session.Token,
+		Expires:  time.Now().Add(time.Hour * 24),
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteStrictMode,
+	})
+
+	return c.JSON(http.StatusOK, "Successfully signed in")
 }
