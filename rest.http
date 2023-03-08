@@ -30,6 +30,8 @@ Content-Type: application/json
 	"password": "15"
 }
 
+### 
+
 POST localhost:8080/auth/signin
 Content-Type: application/json
 
@@ -37,3 +39,8 @@ Content-Type: application/json
 	"name": "steve",
 	"password": "15"
 }
+
+###
+
+DELETE localhost:8080/auth/signout
+

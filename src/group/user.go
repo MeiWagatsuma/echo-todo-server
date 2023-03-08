@@ -2,6 +2,7 @@ package group
 
 import (
 	"echo-todo-server/src/model"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -14,6 +15,7 @@ import (
 func Auth(g *echo.Group) {
 	g.POST("/signup", signup)
 	g.POST("/signin", signin)
+	g.DELETE("/signout", signout)
 }
 
 var validate *validator.Validate
@@ -74,4 +76,35 @@ func signin(c echo.Context) error {
 	})
 
 	return c.JSON(http.StatusOK, "Successfully signed in")
+}
+
+func signout(c echo.Context) error {
+	cookie, err := c.Cookie("token")
+	if err != nil {
+		log.Println(err)
+		if errors.Is(err, http.ErrNoCookie) {
+			return c.JSON(http.StatusOK, "You are already signouted")
+		}
+
+		return c.String(http.StatusInternalServerError, "Invalid value")
+	}
+
+	session := model.Session{Token: cookie.Value}
+
+	if err := session.Delete(); err != nil {
+		log.Println(err)
+		return c.String(http.StatusInternalServerError, "Oops! Something went wrong!")
+	}
+
+	// Delete client cookie
+	c.SetCookie(&http.Cookie{
+		Name:     "token",
+		Value:    "",
+		MaxAge:   0,
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteStrictMode,
+	})
+
+	return c.JSON(http.StatusOK, "Successfully signouted in")
 }

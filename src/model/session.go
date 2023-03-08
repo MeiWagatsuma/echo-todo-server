@@ -3,6 +3,7 @@ package model
 import (
 	"echo-todo-server/src/env"
 	"echo-todo-server/src/lib"
+	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -66,5 +67,25 @@ func (s Session) DeleteExpiredSessions() error {
 		return err
 	}
 	log.Println("Expired sessions were deleted!")
+	return nil
+}
+
+func (s *Session) Delete() error {
+	query := `DELETE FROM sessions WHERE token = $1`
+	result, err := Db.Exec(query, s.Token)
+	if err != nil {
+		log.Println("Insert session key failed: ", err)
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Session key row affected error: ", err)
+		return err
+	}
+	if rowsAffected == 0 {
+		return errors.New("No rows were affected by the operation.")
+	}
+
 	return nil
 }
