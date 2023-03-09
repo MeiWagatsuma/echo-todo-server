@@ -2,6 +2,7 @@ GET localhost:8080
 
 // Todo
 GET localhost:8080/todo
+Cookie: token=pass
 
 POST localhost:8080/todo
 Content-Type: application/json
